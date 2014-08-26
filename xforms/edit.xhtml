@@ -1,0 +1,175 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xxforms="http://orbeon.org/oxf/xml/xforms" xmlns:fr="http://orbeon.org/oxf/xml/form-runner"
+	xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#">
+	<head>
+		<title>nomisma.org: edit</title>
+		<link rel="stylesheet" href="/fr/style/bootstrap/css/bootstrap.css" type="text/css"/>
+		<link rel="stylesheet" href="/fr/style/form-runner-bootstrap-override.css" type="text/css"/>
+
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+		<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"/>
+		<link rel="shortcut icon" href="/ops/images/orbeon-icon-16.ico"/>
+		<link rel="icon" href="/ops/images/orbeon-icon-16.png" type="image/png"/>
+		<link rel="stylesheet" href="/apps/nwda/xforms/css/style.css"/>
+
+		<!-- model -->
+		<xforms:model>
+			<xforms:instance id="doc" xxforms:exclude-result-prefixes="#all">
+				<rdf:RDF xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+					<arch:Archive rdf:about="">
+						<foaf:name/>
+						<dcterms:description/>
+						<foaf:homepage rdf:resource=""/>
+						<vcard:hasEmail rdf:resource=""/>
+						<vcard:hasAddress>
+							<rdf:Descripton>
+								<vcard:street-address/>            
+								<vcard:locality/>
+								<vcard:postal-code/>
+							</rdf:Descripton>
+						</vcard:hasAddress>
+						<vcard:hasTelephone>
+							<vcard:Fax>
+								<vcard:hasValue rdf:resource="tel:"/>
+							</vcard:Fax>
+						</vcard:hasTelephone>
+						<vcard:hasTelephone>
+							<vcard:Voice>
+								<vcard:hasValue rdf:resource="tel:"/>
+							</vcard:Voice>
+						</vcard:hasTelephone>
+					</arch:Archive>
+				</rdf:RDF>
+			</xforms:instance>
+
+			<xforms:instance id="config" xxforms:exclude-result-prefixes="#all">
+				<xi:include href="../config.xml"/>
+			</xforms:instance>
+
+			<xforms:instance id="control-instance" xxforms:exclude-result-prefixes="#all">
+				<controls xmlns="">
+					<status/>
+					<save-trigger>false</save-trigger>
+				</controls>
+			</xforms:instance>
+
+			<xforms:instance id="load-config">
+				<config xmlns="">
+					<url/>
+					<content-type>application/xml</content-type>
+					<mode>xml</mode>
+				</config>
+			</xforms:instance>
+
+			<xforms:instance id="save-config">
+				<config xmlns="">
+					<url/>
+					<content-type>text/plain</content-type>
+					<make-directories>false</make-directories>
+					<append>false</append>
+				</config>
+			</xforms:instance>
+
+			<xforms:instance id="delete-config">
+				<config xmlns="">
+					<delete>
+						<url/>
+					</delete>
+				</config>
+			</xforms:instance>
+
+			<!-- templates -->
+			<xforms:instance id="fax-template" xxforms:exclude-result-prefixes="#all">
+				<vcard:hasTelephone>
+					<vcard:Fax>
+						<vcard:hasValue rdf:resource=""/>
+					</vcard:Fax>
+				</vcard:hasTelephone>
+			</xforms:instance>
+			
+			<xforms:instance id="voice-template" xxforms:exclude-result-prefixes="#all">
+				<vcard:hasTelephone>
+					<vcard:Voice>
+						<vcard:hasValue rdf:resource=""/>
+					</vcard:Voice>
+				</vcard:hasTelephone>
+			</xforms:instance>
+
+			<!--<xforms:action ev:event="xforms-model-construct-done">
+				
+			</xforms:action>-->
+
+			<!-- **************** BINDINGS ********************** -->
+			<xforms:bind nodeset="instance('doc')">
+				<xforms:bind nodeset="arch:Archive">
+					<xforms:bind nodeset="foaf:name" required="true()"/>
+					<xforms:bind nodeset="//@rdf:resource" type="xs:anyURI" required="true()"/>
+				</xforms:bind>
+			</xforms:bind>
+
+			<xforms:action ev:event="xxforms-invalid" ev:observer="doc">
+				<xforms:setvalue ref="instance('control-instance')/save-trigger" value="false()"/>
+			</xforms:action>
+			<xforms:action ev:event="xxforms-valid" ev:observer="doc">
+				<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()"/>
+			</xforms:action>
+
+			
+		</xforms:model>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<xforms:group ref=".[string-length(instance('control-instance')/status) &gt; 0]">
+						<div class="bg-info alert">
+							<p>
+								<span class="glyphicon glyphicon-info-sign"/>
+								<strong>Status:</strong>
+								<xforms:output ref="instance('control-instance')/status"/>
+							</p>
+						</div>
+					</xforms:group>
+
+					<div class="submission">
+						<xforms:trigger bind="save-trigger">
+							<xforms:label><span class="glyphicon glyphicon-floppy-disk"/>Save</xforms:label>
+							<xforms:action ev:event="DOMActivate">
+								<!-- save file back to disk -->
+								<xforms:setvalue ref="instance('save-config')/url"
+									value="concat('file://', instance('config')/id_path, '/',  instance('control-instance')/id, '.xml')"/>
+								<!--<xforms:insert nodeset="instance('dump')"
+									origin="xxforms:call-xpl('oxf:/apps/nomisma/xpl/xforms/save-id.xpl', ('doc', 'configuration'), (instance('doc'), instance('save-config')), 'data')"/>-->
+							</xforms:action>
+						</xforms:trigger>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Edit Repository Metadata</h1>
+					
+					<xforms:group ref="instance('doc')/arch:Archive">
+						<div>
+							<xforms:input ref="foaf:name">
+								<xforms:label>Repository Name</xforms:label>
+								<xforms:alert>Required</xforms:alert>
+							</xforms:input>
+						</div>			
+						<div>
+							<xforms:input ref="vcard:hasEmail/@rdf:resource">
+								<xforms:label>Email</xforms:label>
+								<xforms:alert>Required</xforms:alert>
+							</xforms:input>
+						</div>
+					</xforms:group>
+				</div>
+				<!--<fr:xforms-inspector/>-->
+			</div>
+		</div>
+	</body>
+</html>
