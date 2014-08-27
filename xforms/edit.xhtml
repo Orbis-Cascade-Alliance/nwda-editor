@@ -5,7 +5,7 @@
 	xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#"
 	xmlns:nwda="https://github.com/ewg118/nwda-editor">
 	<head>
-		<title>nomisma.org: edit</title>
+		<title>NWDA Admin: Edit Repository Metadata</title>
 		<link rel="stylesheet" href="/fr/style/bootstrap/css/bootstrap.css" type="text/css"/>
 		<link rel="stylesheet" href="/fr/style/form-runner-bootstrap-override.css" type="text/css"/>
 
@@ -191,7 +191,7 @@
 								<xforms:setvalue ref="instance('save-config')/url"
 									value="concat('file://', instance('config')/id_path, '/',  instance('control-instance')/id, '.xml')"/>
 								<!--<xforms:insert nodeset="instance('dump')"
-									origin="xxforms:call-xpl('oxf:/apps/nomisma/xpl/xforms/save-id.xpl', ('doc', 'configuration'), (instance('doc'), instance('save-config')), 'data')"/>-->
+									origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/xforms/save-id.xpl', ('doc', 'configuration'), (instance('doc'), instance('save-config')), 'data')"/>-->
 							</xforms:action>
 						</xforms:trigger>
 					</div>
