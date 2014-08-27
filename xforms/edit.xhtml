@@ -49,6 +49,7 @@
 				<controls xmlns="">
 					<status/>
 					<id/>
+					<email/>
 					<save-trigger>false</save-trigger>
 					<fax enabled="false">
 						<area-code/>
@@ -144,6 +145,7 @@
 			<xforms:bind nodeset="instance('control-instance')">
 				<xforms:bind nodeset="id" required="true()" type="xs:anyURI" readonly="string(instance('doc')/arch:Archive/@rdf:about)"/>
 				<xforms:bind id="save-trigger" nodeset="save-trigger" type="xs:boolean" readonly=". != true()"/>
+				<xforms:bind nodeset="email" type="emailAddress" required="true()"/>
 				<xforms:bind nodeset="fax">
 					<xforms:bind nodeset="@enabled" type="xs:boolean"/>
 					<xforms:bind nodeset="area-code" required="true()" type="xs:integer" constraint="string-length(.) = 3"/>
@@ -156,6 +158,15 @@
 					<xforms:bind nodeset="line-number" required="true()" type="xs:integer" constraint="string-length(.) = 4"/>
 				</xforms:bind>
 			</xforms:bind>
+			
+			<!-- **************** COMPLEX VALIDATION ********************** -->
+			<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" > 
+				<xsd:simpleType name="emailAddress"> 
+					<xsd:restriction base="xsd:string"> 
+						<xsd:pattern value="[^@]+@[^\.]+\..+"/> 
+					</xsd:restriction> 
+				</xsd:simpleType> 
+			</xsd:schema>
 
 			<!-- **************** SUBMISSIONS ********************** -->
 
@@ -285,9 +296,13 @@
 							</div>
 						</xforms:group>
 						<div>
-							<xforms:input ref="vcard:hasEmail/@rdf:resource">
+							<xforms:input ref="instance('control-instance')/email">
 								<xforms:label>Email</xforms:label>
 								<xforms:alert>Required</xforms:alert>
+								<xforms:action ev:event="xforms-value-changed">
+									<xforms:var name="email" select="."/>
+									<xforms:setvalue ref="instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource" value="concat('mailto:', $email)"/>
+								</xforms:action>
 							</xforms:input>
 						</div>
 						<div>
