@@ -2,7 +2,8 @@
 	xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xxforms="http://orbeon.org/oxf/xml/xforms" xmlns:fr="http://orbeon.org/oxf/xml/form-runner"
 	xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-	xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#">
+	xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#"
+	xmlns:nwda="https://github.com/ewg118/nwda-editor">
 	<head>
 		<title>nomisma.org: edit</title>
 		<link rel="stylesheet" href="/fr/style/bootstrap/css/bootstrap.css" type="text/css"/>
@@ -17,28 +18,23 @@
 		<!-- model -->
 		<xforms:model>
 			<xforms:instance id="doc" xxforms:exclude-result-prefixes="#all">
-				<rdf:RDF xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+				<rdf:RDF xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#"
+					xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:nwda="https://github.com/ewg118/nwda-editor">
 					<arch:Archive rdf:about="">
 						<foaf:name/>
-						<dcterms:description/>
 						<foaf:homepage rdf:resource=""/>
 						<vcard:hasEmail rdf:resource=""/>
 						<vcard:hasAddress>
-							<rdf:Descripton>
-								<vcard:street-address/>            
+							<rdf:Description>
+								<vcard:street-address/>
 								<vcard:locality/>
 								<vcard:postal-code/>
-							</rdf:Descripton>
+							</rdf:Description>
 						</vcard:hasAddress>
 						<vcard:hasTelephone>
-							<vcard:Fax>
-								<vcard:hasValue rdf:resource="tel:"/>
-							</vcard:Fax>
-						</vcard:hasTelephone>
-						<vcard:hasTelephone>
 							<vcard:Voice>
-								<vcard:hasValue rdf:resource="tel:"/>
+								<vcard:hasValue rdf:resource=""/>
 							</vcard:Voice>
 						</vcard:hasTelephone>
 					</arch:Archive>
@@ -52,7 +48,18 @@
 			<xforms:instance id="control-instance" xxforms:exclude-result-prefixes="#all">
 				<controls xmlns="">
 					<status/>
+					<id/>
 					<save-trigger>false</save-trigger>
+					<fax enabled="false">
+						<area-code/>
+						<prefix/>
+						<line-number/>
+					</fax>
+					<voice>
+						<area-code/>
+						<prefix/>
+						<line-number/>
+					</voice>
 				</controls>
 			</xforms:instance>
 
@@ -89,13 +96,25 @@
 					</vcard:Fax>
 				</vcard:hasTelephone>
 			</xforms:instance>
-			
-			<xforms:instance id="voice-template" xxforms:exclude-result-prefixes="#all">
-				<vcard:hasTelephone>
-					<vcard:Voice>
-						<vcard:hasValue rdf:resource=""/>
-					</vcard:Voice>
-				</vcard:hasTelephone>
+
+			<xforms:instance id="subRepository-template" xxforms:exclude-result-prefixes="#all">
+				<nwda:subRepository/>
+			</xforms:instance>
+
+			<xforms:instance id="street-address-template" xxforms:exclude-result-prefixes="#all">
+				<vcard:street-address/>
+			</xforms:instance>
+
+			<xforms:instance id="description-template" xxforms:exclude-result-prefixes="#all">
+				<dcterms:description/>
+			</xforms:instance>
+
+			<xforms:instance id="facsimile-template" xxforms:exclude-result-prefixes="#all">
+				<nwda:facsimile/>
+			</xforms:instance>
+
+			<xforms:instance id="visitation-template" xxforms:exclude-result-prefixes="#all">
+				<nwda:visitation/>
 			</xforms:instance>
 
 			<!--<xforms:action ev:event="xforms-model-construct-done">
@@ -105,24 +124,54 @@
 			<!-- **************** BINDINGS ********************** -->
 			<xforms:bind nodeset="instance('doc')">
 				<xforms:bind nodeset="arch:Archive">
+					<xforms:bind nodeset="@rdf:about" required="true()" type="xs:anyURI"/>
 					<xforms:bind nodeset="foaf:name" required="true()"/>
+					<xforms:bind nodeset="dcterms:description" required="true()"/>
+					<xforms:bind nodeset="nwda:facsimile" required="true()"/>
+					<xforms:bind nodeset="nwda:subRepository" required="true()"/>
+					<xforms:bind nodeset="nwda:visitation" required="true()"/>
 					<xforms:bind nodeset="//@rdf:resource" type="xs:anyURI" required="true()"/>
+					<xforms:bind nodeset="vcard:hasAddress">
+						<xforms:bind nodeset="rdf:Description">
+							<xforms:bind nodeset="vcard:street-address" required="true()"/>
+							<xforms:bind nodeset="vcard:locality" required="true()"/>
+							<xforms:bind nodeset="vcard:postal-code" required="true()" type="xs:integer" constraint="string-length(.) = 5"/>
+						</xforms:bind>
+					</xforms:bind>
 				</xforms:bind>
 			</xforms:bind>
 
-			<xforms:action ev:event="xxforms-invalid" ev:observer="doc">
+			<xforms:bind nodeset="instance('control-instance')">
+				<xforms:bind nodeset="id" required="true()" type="xs:anyURI" readonly="string(instance('doc')/arch:Archive/@rdf:about)"/>
+				<xforms:bind id="save-trigger" nodeset="save-trigger" type="xs:boolean" readonly=". != true()"/>
+				<xforms:bind nodeset="fax">
+					<xforms:bind nodeset="@enabled" type="xs:boolean"/>
+					<xforms:bind nodeset="area-code" required="true()" type="xs:integer" constraint="string-length(.) = 3"/>
+					<xforms:bind nodeset="prefix" required="true()" type="xs:integer" constraint="string-length(.) = 3"/>
+					<xforms:bind nodeset="line-number" required="true()" type="xs:integer" constraint="string-length(.) = 4"/>
+				</xforms:bind>
+				<xforms:bind nodeset="voice">
+					<xforms:bind nodeset="area-code" required="true()" type="xs:integer" constraint="string-length(.) = 3"/>
+					<xforms:bind nodeset="prefix" required="true()" type="xs:integer" constraint="string-length(.) = 3"/>
+					<xforms:bind nodeset="line-number" required="true()" type="xs:integer" constraint="string-length(.) = 4"/>
+				</xforms:bind>
+			</xforms:bind>
+
+			<!-- **************** SUBMISSIONS ********************** -->
+
+			<!--<xforms:action ev:event="xxforms-invalid" ev:observer="doc">
 				<xforms:setvalue ref="instance('control-instance')/save-trigger" value="false()"/>
 			</xforms:action>
 			<xforms:action ev:event="xxforms-valid" ev:observer="doc">
 				<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()"/>
-			</xforms:action>
+			</xforms:action>-->
 
-			
+
 		</xforms:model>
 	</head>
 
 	<body>
-		<div class="container-fluid">
+		<div class="container-fluid" id="form">
 			<div class="row">
 				<div class="col-md-12">
 					<xforms:group ref=".[string-length(instance('control-instance')/status) &gt; 0]">
@@ -134,7 +183,6 @@
 							</p>
 						</div>
 					</xforms:group>
-
 					<div class="submission">
 						<xforms:trigger bind="save-trigger">
 							<xforms:label><span class="glyphicon glyphicon-floppy-disk"/>Save</xforms:label>
@@ -152,20 +200,305 @@
 			<div class="row">
 				<div class="col-md-12">
 					<h1>Edit Repository Metadata</h1>
-					
+				</div>
+				<div class="col-md-2">
 					<xforms:group ref="instance('doc')/arch:Archive">
+						<ul class="list-unstyled">
+							<xforms:group ref=".[count(dcterms:description) = 0]">
+								<li>
+									<xforms:trigger appearance="minimal">
+										<xforms:label>
+											<span class="glyphicon glyphicon-plus"/>Collection Info</xforms:label>
+										<xforms:insert ev:event="DOMActivate" origin="instance('description-template')" context="." nodeset="./child::node()[last()]"/>
+									</xforms:trigger>
+								</li>
+							</xforms:group>
+							<xforms:group ref=".[count(nwda:facsimile) = 0]">
+								<li>
+									<xforms:trigger appearance="minimal">
+										<xforms:label>
+											<span class="glyphicon glyphicon-plus"/>Copy Info</xforms:label>
+										<xforms:insert ev:event="DOMActivate" origin="instance('facsimile-template')" context="." nodeset="./child::node()[last()]"/>
+									</xforms:trigger>
+								</li>
+							</xforms:group>
+							<xforms:group ref=".[count(vcard:hasTelephone[vcard:Fax]) = 0]">
+								<li>
+									<xforms:trigger appearance="minimal">
+										<xforms:label>
+											<span class="glyphicon glyphicon-plus"/>Fax Number</xforms:label>
+										<xforms:action ev:event="DOMActivate">
+											<!-- activate the fax control and insert the vcard Fax into the RDF model -->
+											<xforms:setvalue ref="instance('control-instance')/fax/@enabled">true</xforms:setvalue>
+											<xforms:insert origin="instance('fax-template')" context="." nodeset="./child::node()[last()]"/>
+										</xforms:action>
+									</xforms:trigger>
+								</li>
+							</xforms:group>
+							<xforms:group ref=".[count(nwda:subRepository) = 0]">
+								<li>
+									<xforms:trigger appearance="minimal">
+										<xforms:label>
+											<span class="glyphicon glyphicon-plus"/>Sub Repository</xforms:label>
+										<xforms:insert ev:event="DOMActivate" origin="instance('subRepository-template')" context="." nodeset="./child::node()[last()]"/>
+									</xforms:trigger>
+								</li>
+							</xforms:group>
+							<xforms:group ref=".[count(nwda:visitation) = 0]">
+								<li>
+									<xforms:trigger appearance="minimal">
+										<xforms:label>
+											<span class="glyphicon glyphicon-plus"/>Visitation Info</xforms:label>
+										<xforms:insert ev:event="DOMActivate" origin="instance('visitation-template')" context="." nodeset="./child::node()[last()]"/>
+									</xforms:trigger>
+								</li>
+							</xforms:group>
+						</ul>
+					</xforms:group>
+				</div>
+				<div class="col-md-10">
+					<xforms:group ref="instance('doc')/arch:Archive">
+						<div>
+							<xforms:input ref="instance('control-instance')/id">
+								<xforms:label>ID</xforms:label>
+								<xforms:alert>Required</xforms:alert>
+							</xforms:input>
+						</div>
 						<div>
 							<xforms:input ref="foaf:name">
 								<xforms:label>Repository Name</xforms:label>
 								<xforms:alert>Required</xforms:alert>
 							</xforms:input>
-						</div>			
+						</div>
+						<xforms:group ref="nwda:subRepository">
+							<div>
+								<xforms:input ref=".">
+									<xforms:label>Sub-Repository</xforms:label>
+									<xforms:alert>Required</xforms:alert>
+								</xforms:input>
+								<xforms:trigger appearance="minimal">
+									<xforms:delete ev:event="DOMActivate" context="."/>
+									<xforms:label>
+										<span class="glyphicon glyphicon-remove"/>
+									</xforms:label>
+								</xforms:trigger>
+							</div>
+						</xforms:group>
 						<div>
 							<xforms:input ref="vcard:hasEmail/@rdf:resource">
 								<xforms:label>Email</xforms:label>
 								<xforms:alert>Required</xforms:alert>
 							</xforms:input>
 						</div>
+						<div>
+							<xforms:input ref="foaf:homepage/@rdf:resource">
+								<xforms:label>Web Site</xforms:label>
+								<xforms:alert>Required</xforms:alert>
+							</xforms:input>
+						</div>
+						
+						<!-- handle voice and fax in external instance -->
+						<xforms:group ref="instance('control-instance')/voice">
+							<div>
+								<xforms:input ref="area-code" class="phone-input" xxforms:maxlength="3">
+									<xforms:label>Telephone</xforms:label>
+									<xforms:alert>Must be 3 digits</xforms:alert>
+								</xforms:input>
+								<xforms:input ref="prefix" class="phone-input" xxforms:maxlength="3">
+									<xforms:alert>Must be 3 digits</xforms:alert>
+								</xforms:input>
+								<xforms:input ref="line-number" class="phone-input" xxforms:maxlength="4">
+									<xforms:alert>Must be 4 digits</xforms:alert>
+								</xforms:input>
+								<xforms:setvalue ev:event="xforms-value-changed" ref="instance('doc')/arch:Archive/vcard:hasTelephone/vcard:Voice/vcard:hasValue/@rdf:resource"
+									value="concat('tel:+', instance('control-instance')/voice/area-code, instance('control-instance')/voice/prefix, instance('control-instance')/voice/line-number)"
+								/>
+							</div>
+						</xforms:group>
+						<xforms:group ref="instance('control-instance')/fax[@enabled=true()]">
+							<div>
+								<xforms:input ref="area-code" class="phone-input" xxforms:maxlength="3">
+									<xforms:label>Fax</xforms:label>
+									<xforms:alert>Must be 3 digits</xforms:alert>
+								</xforms:input>
+								<xforms:input ref="prefix" class="phone-input" xxforms:maxlength="3">
+									<xforms:alert>Must be 3 digits</xforms:alert>
+								</xforms:input>
+								<xforms:input ref="line-number" class="phone-input" xxforms:maxlength="4">
+									<xforms:alert>Must be 4 digits</xforms:alert>
+								</xforms:input>
+								<xforms:setvalue ev:event="xforms-value-changed" ref="instance('doc')/arch:Archive/vcard:hasTelephone/vcard:Fax/vcard:hasValue/@rdf:resource"
+									value="concat('tel:+', instance('control-instance')/fax/area-code, instance('control-instance')/fax/prefix, instance('control-instance')/fax/line-number)"/>
+								<xforms:trigger appearance="minimal">
+									<xforms:action ev:event="DOMActivate">
+										<xforms:setvalue ref="instance('control-instance')/fax/@enabled">false</xforms:setvalue>
+										<xforms:setvalue ref="instance('control-instance')/fax/area-code"/>
+										<xforms:setvalue ref="instance('control-instance')/fax/prefix"/>
+										<xforms:setvalue ref="instance('control-instance')/fax/line-number"/>
+										<xforms:delete context="instance('doc')/arch:Archive/vcard:hasTelephone[vcard:Fax]"/>
+									</xforms:action>
+									<xforms:label>
+										<span class="glyphicon glyphicon-remove"/>
+									</xforms:label>
+								</xforms:trigger>
+							</div>
+						</xforms:group>
+						
+						<!-- address -->
+						<xforms:group ref="vcard:hasAddress/rdf:Description">
+							<div class="subsection">
+								<h4>Address</h4>
+								<xforms:trigger appearance="minimal">
+									<xforms:label>
+										<span class="glyphicon glyphicon-plus"/>Address Line</xforms:label>
+									<xforms:insert ev:event="DOMActivate" origin="instance('street-address-template')" context="." nodeset="./vcard:street-address[last()]"
+										position="after"/>
+								</xforms:trigger>
+								<xforms:repeat nodeset="vcard:street-address">
+									<div>
+										<xforms:input ref=".">
+											<xforms:label>Address Line</xforms:label>
+											<xforms:alert>Required</xforms:alert>
+										</xforms:input>
+										<xforms:group ref=".[count(parent::node()/vcard:street-address) &gt; 1]">
+											<xforms:trigger appearance="minimal">
+												<xforms:delete ev:event="DOMActivate" context="."/>
+												<xforms:label>
+													<span class="glyphicon glyphicon-remove"/>
+												</xforms:label>
+											</xforms:trigger>
+										</xforms:group>
+									</div>
+								</xforms:repeat>
+								<div>
+									<xforms:input ref="vcard:locality">
+										<xforms:label>City, State</xforms:label>
+										<xforms:alert>Required</xforms:alert>
+									</xforms:input>
+								</div>
+								<div>
+									<xforms:input ref="vcard:postal-code" xxforms:maxlength="5">
+										<xforms:label>ZIP Code</xforms:label>
+										<xforms:alert>Must be 5 digits</xforms:alert>
+									</xforms:input>
+								</div>
+							</div>
+						</xforms:group> 
+						
+						<!-- collection description, facsimile requests, or visitation information (textarea or URL) -->
+						<xforms:group ref=".[dcterms:description or nwda:facsimile or nwda:visitation]">
+							<div class="subsection">
+								<h4>Descriptive Information</h4>
+								<xforms:group ref="dcterms:description">
+									<div>
+										<xforms:group ref=".[@rdf:resource]">
+											<xforms:input ref="@rdf:resource">
+												<xforms:label>Collection Info URL</xforms:label>
+												<xforms:alert>Required</xforms:alert>
+											</xforms:input>
+											<xforms:trigger appearance="minimal">
+												<xforms:delete ev:event="DOMActivate" context="."/>
+												<xforms:label>
+													<span class="glyphicon glyphicon-remove"/>
+												</xforms:label>
+											</xforms:trigger>
+										</xforms:group>
+										<xforms:group ref=".[not(@rdf:resource)]">
+											<xforms:textarea ref=".">
+												<xforms:label>Collection Info</xforms:label>
+												<xforms:alert>Required</xforms:alert>
+											</xforms:textarea>
+											<xforms:trigger appearance="minimal">
+												<xforms:label>
+													<span class="glyphicon glyphicon-plus"/>URL</xforms:label>
+												<xforms:action ev:event="DOMActivate">
+													<xforms:setvalue ref="."/>
+													<xforms:insert context="." origin="xxforms:attribute('rdf:resource', '')"/>
+												</xforms:action>
+											</xforms:trigger>
+											<xforms:trigger appearance="minimal">
+												<xforms:delete ev:event="DOMActivate" context="."/>
+												<xforms:label>
+													<span class="glyphicon glyphicon-remove"/>
+												</xforms:label>
+											</xforms:trigger>
+										</xforms:group>
+									</div>
+								</xforms:group>
+								<xforms:group ref="nwda:facsimile">
+									<div>
+										<xforms:group ref=".[@rdf:resource]">
+											<xforms:input ref="@rdf:resource">
+												<xforms:label>Copy Info URL</xforms:label>
+												<xforms:alert>Required</xforms:alert>
+											</xforms:input>
+											<xforms:trigger appearance="minimal">
+												<xforms:delete ev:event="DOMActivate" context="."/>
+												<xforms:label>
+													<span class="glyphicon glyphicon-remove"/>
+												</xforms:label>
+											</xforms:trigger>
+										</xforms:group>
+										<xforms:group ref=".[not(@rdf:resource)]">
+											<xforms:textarea ref=".">
+												<xforms:label>Copy Info</xforms:label>
+												<xforms:alert>Required</xforms:alert>
+											</xforms:textarea>
+											<xforms:trigger appearance="minimal">
+												<xforms:label>
+													<span class="glyphicon glyphicon-plus"/>URL</xforms:label>
+												<xforms:action ev:event="DOMActivate">
+													<xforms:setvalue ref="."/>
+													<xforms:insert context="." origin="xxforms:attribute('rdf:resource', '')"/>
+												</xforms:action>
+											</xforms:trigger>
+											<xforms:trigger appearance="minimal">
+												<xforms:delete ev:event="DOMActivate" context="."/>
+												<xforms:label>
+													<span class="glyphicon glyphicon-remove"/>
+												</xforms:label>
+											</xforms:trigger>
+										</xforms:group>
+									</div>
+								</xforms:group>
+								<xforms:group ref="nwda:visitation">
+									<div>
+										<xforms:group ref=".[@rdf:resource]">
+											<xforms:input ref="@rdf:resource">
+												<xforms:label>Visitation Info URL</xforms:label>
+												<xforms:alert>Required</xforms:alert>
+											</xforms:input>
+											<xforms:trigger appearance="minimal">
+												<xforms:delete ev:event="DOMActivate" context="."/>
+												<xforms:label>
+													<span class="glyphicon glyphicon-remove"/>
+												</xforms:label>
+											</xforms:trigger>
+										</xforms:group>
+										<xforms:group ref=".[not(@rdf:resource)]">
+											<xforms:textarea ref=".">
+												<xforms:label>Visitation Info</xforms:label>
+												<xforms:alert>Required</xforms:alert>
+											</xforms:textarea>
+											<xforms:trigger appearance="minimal">
+												<xforms:label>
+													<span class="glyphicon glyphicon-plus"/>URL</xforms:label>
+												<xforms:action ev:event="DOMActivate">
+													<xforms:setvalue ref="."/>
+													<xforms:insert context="." origin="xxforms:attribute('rdf:resource', '')"/>
+												</xforms:action>
+											</xforms:trigger>
+											<xforms:trigger appearance="minimal">
+												<xforms:delete ev:event="DOMActivate" context="."/>
+												<xforms:label>
+													<span class="glyphicon glyphicon-remove"/>
+												</xforms:label>
+											</xforms:trigger>
+										</xforms:group>
+									</div>
+								</xforms:group>
+							</div>
+						</xforms:group>
 					</xforms:group>
 				</div>
 				<!--<fr:xforms-inspector/>-->

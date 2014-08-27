@@ -18,6 +18,10 @@
 	width: 20em;
 	margin-bottom: 2px;
 }
+.orbeon .phone-input input {
+	width:4em;
+	margin-bottom:2px;	
+}
 .orbeon .xforms-repeat-selected-item-1 .form-td {
 	background-color: #f5f5f5
 }
@@ -65,10 +69,16 @@
 	padding:5px;
 }
 .subsection {
-	margin-bottom:20px;
+	margin:10px 0;
 }
 .control-list {
 	list-style-type:none;
+}
+#form {
+	margin:20px 0;
+}
+#form h4,#form h5,#form h6 {
+	display:inline;
 }
 /*
   ****************************************
