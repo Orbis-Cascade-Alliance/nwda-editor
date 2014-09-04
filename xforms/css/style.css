@@ -8,8 +8,6 @@
 }
 .orbeon .xforms-label {
 	font-weight: bold;
-	display: inline-block;
-	min-width: 9em
 }
 .orbeon .xforms-select1-appearance-full .xforms-label {
 	vertical-align: top
