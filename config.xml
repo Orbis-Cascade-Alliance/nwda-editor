@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<file_path>/usr/local/projects/aew/repository_rdf</file_path>	
+	<file_path>/usr/local/projects/repository_records</file_path>
+	<exist>
+		<url/>
+		<username/>
+		<password/>
+	</exist>
 </config>
