@@ -17,4 +17,14 @@ Download and install the latest stable version of Apache Tomcat. On Windows, exe
 Orbeon will run with 512MB of heap space, but ideally it requires 1 GB. Nevertheless, this is greater than the default Java configuration. See the Orbeon [documentation](http://wiki.orbeon.com/forms/doc/developer-guide/admin/installing#TOC-Java-virtual-machine-configuration) for recommendations for configuring the virtual machine.
 
 ### 3. Download and deploy Orbeon ###
-Go to the Orbeon [download page](http://www.orbeon.com/download) and download the current version of the free and open source Community Edition.
+Go to the Orbeon [download page](http://www.orbeon.com/download) and download the current version of the free and open source Community Edition. From the zip file, extract orbeon.war and deploy the application. This can be achieved by using the Tomcat manager, if available, or by placing the WAR file into $TOMCAT_HOME/webapps.
+
+#### 3a. Configure Orbeon ####
+We need to make a minor configuration to Orbeon so that it uses the default, plain theme so that the Bootstrap-based CSS inherent to the AEW editor takes precedence.
+
+ *  Navigate to $TOMCAT_HOME/webapps/orbeon/WEB-INF/resources/config/
+ *  Rename properties-local.xml.template properties-local.xml
+
+<property as="xs:anyURI" name="oxf.epilogue.theme" value="oxf:/config/theme-plain.xsl"/>
+
+tets
