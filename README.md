@@ -19,12 +19,25 @@ Orbeon will run with 512MB of heap space, but ideally it requires 1 GB. Neverthe
 ### 3. Download and deploy Orbeon ###
 Go to the Orbeon [download page](http://www.orbeon.com/download) and download the current version of the free and open source Community Edition. From the zip file, extract orbeon.war and deploy the application. This can be achieved by using the Tomcat manager, if available, or by placing the WAR file into $TOMCAT_HOME/webapps.
 
-#### 3a. Configure Orbeon ####
+#### 3a. Enable symlinking in Tomcat ####
+By default, Tomcat doesn't symlinking within webapps, so we need to manually allow this. In $TOMCAT_HOME/conf/Catalina/localhost, create orbeon.xml and paste the following:
+
+    <Context path="/orbeon" docBase="c:/Program Files/Apache Software Foundation/Tomcat 8.0/webapps/orbeon.war" allowLinking="true"/>
+    
+Change the docBase path as necessary.
+
+#### 3b. Configure Orbeon Properties ####
 We need to make a minor configuration to Orbeon so that it uses the default, plain theme so that the Bootstrap-based CSS inherent to the AEW editor takes precedence.
 
  *  Navigate to $TOMCAT_HOME/webapps/orbeon/WEB-INF/resources/config/
- *  Rename properties-local.xml.template properties-local.xml
+ *  Rename *properties-local.xml.template* to *properties-local.xml* and insert within &lt;properties&gt;
+    `&lt;property as="xs:anyURI" name="oxf.epilogue.theme" value="oxf:/config/theme-plain.xsl"/&gt;`
+ *  Tomcat may need to be restarted for these changes to take effect.
 
-<property as="xs:anyURI" name="oxf.epilogue.theme" value="oxf:/config/theme-plain.xsl"/>
+### 4. Install and Configure Git ###
+Follow platform specific instructions for intalling and configuring Git. There is a Github for Windows application. It should be configured to log in through an AEW administrator account (yet to be created) for deploying to the server.
 
-tets
+### 5. Clone Github Repositories ###
+  * Clone nwda-editor into $TOMCAT_HOME/webapps/orbeon/WEB-INF/resources/apps, calling it 'nwda'
+  * Clone the repository_records someplace, e.g. D:\www.
+  * Edit config.xml in the nwda app, updating the file\_path with the correct path to repository\_records. 
