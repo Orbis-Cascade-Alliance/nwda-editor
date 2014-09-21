@@ -31,7 +31,7 @@ We need to make a minor configuration to Orbeon so that it uses the default, pla
 
  *  Navigate to $TOMCAT_HOME/webapps/orbeon/WEB-INF/resources/config/
  *  Rename *properties-local.xml.template* to *properties-local.xml* and insert within &lt;properties&gt;
-    `&lt;property as="xs:anyURI" name="oxf.epilogue.theme" value="oxf:/config/theme-plain.xsl"/&gt;`
+    `<property as="xs:anyURI" name="oxf.epilogue.theme" value="oxf:/config/theme-plain.xsl"/>`
  *  Tomcat may need to be restarted for these changes to take effect.
 
 ### 4. Install and Configure Git ###
@@ -39,5 +39,5 @@ Follow platform specific instructions for intalling and configuring Git. There i
 
 ### 5. Clone Github Repositories ###
   * Clone nwda-editor into $TOMCAT_HOME/webapps/orbeon/WEB-INF/resources/apps, calling it 'nwda'
-  * Clone the repository_records someplace, e.g. D:\www.
-  * Edit config.xml in the nwda app, updating the file\_path with the correct path to repository\_records. 
+  * Clone the repository\_records into $TOMCAT_HOME/webapps/orbeon/WEB-INF/resources
+  * The editor is now accessible by going to http://servername:8080/orbeon/nwda/edit/, and it will be able to save and load from the repository\_records using Orbeon's internal oxf: protocol.
