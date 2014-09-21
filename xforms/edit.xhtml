@@ -107,6 +107,9 @@
 			<xforms:instance id="visitation-template" xxforms:exclude-result-prefixes="#all">
 				<nwda:visitation></nwda:visitation>
 			</xforms:instance>
+			<xforms:instance id="thumbnail-template" xxforms:exclude-result-prefixes="#all">
+				<foaf:thumbnail rdf:resource=""/>
+			</xforms:instance>
 			<!-- **************** BINDINGS ********************** -->
 			<xforms:bind nodeset="instance('doc')">
 				<xforms:bind nodeset="arch:Archive">
@@ -259,6 +262,15 @@
 									</xforms:trigger>
 								</li>
 							</xforms:group>
+							<xforms:group ref=".[count(foaf:thumbnail) = 0]">
+								<li>
+									<xforms:trigger appearance="minimal">
+										<xforms:label>
+											<span class="glyphicon glyphicon-plus"></span>Logo</xforms:label>
+										<xforms:insert ev:event="DOMActivate" origin="instance('thumbnail-template')" context="." nodeset="./child::node()[last()]"></xforms:insert>
+									</xforms:trigger>
+								</li>
+							</xforms:group>
 							<xforms:group ref=".[count(nwda:subRepository) = 0]">
 								<li>
 									<xforms:trigger appearance="minimal">
@@ -353,6 +365,14 @@
 										</xforms:input></td>
 									<td><p>Please give the URL of your repository. Ideally this is a fairly stable URL that goes to your specific department rather than your overall organization.
 										</p></td>
+								</tr>
+								<tr>
+									<th><strong>Logo</strong></th>
+									<td><xforms:input ref="foaf:thumbnail/@rdf:resource">
+										<xforms:alert>Required</xforms:alert>
+									</xforms:input></td>
+									<td><p>The logo should be a publicly-accessible URL.
+									</p></td>
 								</tr>
 								<xforms:group ref="instance('control-instance')/voice">
 									<tr>
