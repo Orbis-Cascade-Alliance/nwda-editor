@@ -212,7 +212,7 @@
 							<xforms:action ev:event="DOMActivate">
 								<!-- save file back to disk -->
 								<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('aew:', instance('control-instance')/id)"></xforms:setvalue>
-								<xforms:setvalue ref="instance('save-config')/url" value="concat('oxf:/repository_records/,  instance('control-instance')/id, '.xml')"></xforms:setvalue>
+								<xforms:setvalue ref="instance('save-config')/url" value="concat('oxf:/repository_records/',  instance('control-instance')/id, '.xml')"></xforms:setvalue>
 								<xforms:insert nodeset="instance('dump')"
 									origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/save-id.xpl', ('doc', 'configuration'), (instance('doc'), instance('save-config')), 'data')"></xforms:insert>
 								<xforms:setvalue ref="instance('control-instance')/status">Repository metadata updated.</xforms:setvalue>
