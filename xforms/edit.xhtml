@@ -3,7 +3,7 @@
 	xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
 	xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:nwda="https://github.com/ewg118/nwda-editor#">
 	<head>
-		<title>NWDA Admin: Edit Repository Metadata</title>
+		<title>AEW Admin: Edit Repository Metadata</title>
 		<link rel="stylesheet" href="/fr/style/bootstrap/css/bootstrap.css" type="text/css" />
 		<link rel="stylesheet" href="/fr/style/form-runner-bootstrap-override.css" type="text/css" />
 		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
@@ -154,7 +154,7 @@
 			<xforms:action ev:event="xforms-model-construct-done">
 				<xforms:action if="string(xxforms:get-request-parameter('id'))">
 					<xforms:setvalue ref="instance('control-instance')/id" value="xxforms:get-request-parameter('id')"></xforms:setvalue>
-					<xforms:setvalue ref="instance('load-config')/url" value="concat('file://', instance('config')/file_path, '/', xxforms:get-request-parameter('id'), '.xml')"></xforms:setvalue>
+					<xforms:setvalue ref="instance('load-config')/url" value="concat('oxf:/repository_records/', xxforms:get-request-parameter('id'), '.xml')"></xforms:setvalue>
 					<xforms:insert nodeset="instance('doc')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/load-id.xpl', 'file', instance('load-config'), 'data')"></xforms:insert>
 					<!-- set phone, fax, and email controls -->
 					<xforms:setvalue ref="instance('control-instance')/email" value="substring-after(instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource, 'mailto:')"></xforms:setvalue>
@@ -212,7 +212,7 @@
 							<xforms:action ev:event="DOMActivate">
 								<!-- save file back to disk -->
 								<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('aew:', instance('control-instance')/id)"></xforms:setvalue>
-								<xforms:setvalue ref="instance('save-config')/url" value="concat('file://', instance('config')/file_path, '/',  instance('control-instance')/id, '.xml')"></xforms:setvalue>
+								<xforms:setvalue ref="instance('save-config')/url" value="concat('oxf:/repository_records/,  instance('control-instance')/id, '.xml')"></xforms:setvalue>
 								<xforms:insert nodeset="instance('dump')"
 									origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/save-id.xpl', ('doc', 'configuration'), (instance('doc'), instance('save-config')), 'data')"></xforms:insert>
 								<xforms:setvalue ref="instance('control-instance')/status">Repository metadata updated.</xforms:setvalue>
