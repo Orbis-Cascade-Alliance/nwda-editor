@@ -19,5 +19,11 @@
 	***************** -->
 	<page path="/nwda/edit/" view="xforms/edit.xhtml"/>
 	
+	<!-- ****************
+	* PUBLIC INTERFACE *
+	***************** -->
+	<!-- REST API to aggregate each RDF/XML fragment into a single model -->
+	<page path="/nwda/repositories.rdf" view="xpl/aggregate-all.xpl"/>
+	
 	<epilogue url="oxf:/config/epilogue.xpl"/>
 </config>
