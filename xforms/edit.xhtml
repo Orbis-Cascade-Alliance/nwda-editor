@@ -54,7 +54,7 @@
 			</xforms:instance>
 			
 			<xforms:instance id="users" xxforms:exclude-result-prefixes="#all">
-				<xi:include href="oxf:/users.xml"/>
+				<users/>
 			</xforms:instance>
 
 			<xforms:instance id="load-config">
@@ -75,6 +75,14 @@
 			</xforms:instance>
 			
 			<xforms:instance id="session-config">
+				<config xmlns="">
+					<url></url>
+					<content-type>application/xml</content-type>
+					<mode>xml</mode>
+				</config>
+			</xforms:instance>
+			
+			<xforms:instance id="users-config">
 				<config xmlns="">
 					<url></url>
 					<content-type>application/xml</content-type>
@@ -202,7 +210,12 @@
 						</xforms:action>
 						
 						<!-- if the user is an admin -->
-						<xforms:setvalue if="instance('session')/user/admin= '1'" ref="instance('control-instance')/admin">true</xforms:setvalue>
+						<xforms:action if="instance('session')/user/admin= '1'">
+							<xforms:setvalue ref="instance('users-config')/url" value="instance('config')/users_path"/>
+							<xforms:insert nodeset="instance('users')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/get-users.xpl', 'file', instance('users-config'), 'data')"></xforms:insert>
+							<xforms:setvalue ref="instance('control-instance')/admin">true</xforms:setvalue>
+						</xforms:action>
+						
 						
 						<!-- set authenticated to true to switch the xforms:case -->
 						<xforms:setvalue ref="instance('control-instance')/authenticated">true</xforms:setvalue>
