@@ -52,6 +52,10 @@
 			<xforms:instance id="session" xxforms:exclude-result-prefixes="#all">
 				<session></session>
 			</xforms:instance>
+			
+			<xforms:instance id="users" xxforms:exclude-result-prefixes="#all">
+				<xi:include href="oxf:/users.xml"/>
+			</xforms:instance>
 
 			<xforms:instance id="load-config">
 				<config xmlns="">
@@ -164,7 +168,7 @@
 			<!-- **************** MODEL CONSTRUCT ********************** -->
 			<xforms:action ev:event="xforms-model-construct-done">
 				<!-- first load the request header -->
-				<xforms:insert nodeset="instance('request')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/get-request.xpl', 'data', instance('dump'), 'data')"></xforms:insert>
+				<xforms:insert nodeset="instance('request')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/get-request.xpl', 'data', instance('dump'), 'data')"></xforms:insert>				
 
 				<!-- look for ASP.NET SessionID cookie -->
 				<xforms:var name="cookies" select="tokenize(instance('request')/headers/header[name='cookie']/value, ';')"></xforms:var>
@@ -176,7 +180,7 @@
 					<xforms:insert nodeset="instance('session')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/get-session.xpl', 'file', instance('session-config'), 'data')"></xforms:insert>
 					
 					<!-- if the session XML successfully loads -->
-					<xforms:action if="instance('session')/expires">
+					<xforms:action if="instance('session')/expires">						
 						<!-- automatically load RDF file for non-administrative users -->
 						<xforms:action if="instance('session')/user/admin= '0'">
 							<xforms:setvalue ref="instance('control-instance')/id" value="instance('session')/user/mainagencycode"></xforms:setvalue>
@@ -199,6 +203,9 @@
 						
 						<!-- if the user is an admin -->
 						<xforms:setvalue if="instance('session')/user/admin= '1'" ref="instance('control-instance')/admin">true</xforms:setvalue>
+						
+						<!-- set authenticated to true to switch the xforms:case -->
+						<xforms:setvalue ref="instance('control-instance')/authenticated">true</xforms:setvalue>
 					</xforms:action>
 				</xforms:action>
 			</xforms:action>
@@ -260,7 +267,7 @@
 										<xforms:label>Select Agency Code...</xforms:label>
 										<xforms:value></xforms:value>
 									</xforms:item>
-									<xforms:itemset nodeset="instance('users')//user[admin='0' and string(mainagencycode)]">
+									<xforms:itemset nodeset="xxforms:sort(instance('users')//user[admin='0' and string(mainagencycode)], mainagencycode, 'text', 'ascending')">
 										<xforms:label ref="mainagencycode"></xforms:label>
 										<xforms:value ref="mainagencycode"></xforms:value>
 									</xforms:itemset>
