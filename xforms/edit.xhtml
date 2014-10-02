@@ -294,6 +294,8 @@
 										<xforms:setvalue ref="instance('control-instance')/id" value="$id"></xforms:setvalue>
 										<xforms:setvalue ref="instance('load-config')/url" value="concat('oxf:/repository_records/', $id, '.xml')"></xforms:setvalue>
 										<xforms:insert nodeset="instance('doc')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/load-id.xpl', 'file', instance('load-config'), 'data')"></xforms:insert>
+										<!-- reset @rdf:about in the event that a template is loaded -->
+										<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('aew:', instance('control-instance')/id)"/>
 										<!-- set phone, fax, and email controls -->
 										<xforms:setvalue ref="instance('control-instance')/email" value="substring-after(instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource, 'mailto:')"></xforms:setvalue>
 										<xforms:var name="phone" select="substring-after(instance('doc')/descendant::vcard:Voice/vcard:hasValue/@rdf:resource, 'tel:+')"></xforms:var>
