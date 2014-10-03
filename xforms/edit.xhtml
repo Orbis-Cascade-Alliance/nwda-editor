@@ -12,11 +12,9 @@
 		<link rel="icon" href="/ops/images/orbeon-icon-16.png" type="image/png" />
 		<link rel="stylesheet" href="/apps/nwda/xforms/css/style.css" />
 		<!-- model -->
-		<xforms:model>
+		<xforms:model id="model">
 			<xforms:instance id="doc" xxforms:exclude-result-prefixes="#all">
-				<rdf:RDF xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
-					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-					xmlns:nwda="https://github.com/ewg118/nwda-editor#"></rdf:RDF>
+				<rdf:RDF/>
 			</xforms:instance>
 
 			<xforms:instance id="config" xxforms:exclude-result-prefixes="#all">
@@ -28,9 +26,9 @@
 					<status></status>
 					<id></id>
 					<select></select>
-					<authenticated>false</authenticated>
+					<authenticated>true</authenticated>
 					<admin>false</admin>
-					<dateTime/>
+					<dateTime></dateTime>
 					<email></email>
 					<save-trigger>false</save-trigger>
 					<fax enabled="false">
@@ -53,9 +51,9 @@
 			<xforms:instance id="session" xxforms:exclude-result-prefixes="#all">
 				<session></session>
 			</xforms:instance>
-			
+
 			<xforms:instance id="users" xxforms:exclude-result-prefixes="#all">
-				<users/>
+				<users></users>
 			</xforms:instance>
 
 			<xforms:instance id="load-config">
@@ -74,7 +72,7 @@
 					<append>false</append>
 				</config>
 			</xforms:instance>
-			
+
 			<xforms:instance id="session-config">
 				<config xmlns="">
 					<url></url>
@@ -82,7 +80,7 @@
 					<mode>xml</mode>
 				</config>
 			</xforms:instance>
-			
+
 			<xforms:instance id="users-config">
 				<config xmlns="">
 					<url></url>
@@ -177,8 +175,8 @@
 			<!-- **************** MODEL CONSTRUCT ********************** -->
 			<xforms:action ev:event="xforms-model-construct-done">
 				<!-- first load the request header -->
-				<xforms:insert nodeset="instance('request')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/get-request.xpl', 'data', instance('dump'), 'data')"></xforms:insert>		
-				
+				<xforms:insert nodeset="instance('request')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/get-request.xpl', 'data', instance('dump'), 'data')"></xforms:insert>
+
 
 				<!-- look for ASP.NET SessionID cookie -->
 				<xforms:var name="cookies" select="tokenize(instance('request')/headers/header[name='cookie']/value, ';')"></xforms:var>
@@ -186,21 +184,21 @@
 
 				<xforms:action if="string-length($sessionID) &gt; 0">
 					<!-- load the associated user authentication information for the $sessionID -->
-					<xforms:setvalue ref="instance('session-config')/url" value="concat('file:///', instance('config')/tmp_path, '/', $sessionID, '.xml')"/>
+					<xforms:setvalue ref="instance('session-config')/url" value="concat('file:///', instance('config')/tmp_path, '/', $sessionID, '.xml')"></xforms:setvalue>
 					<xforms:insert nodeset="instance('session')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/get-session.xpl', 'file', instance('session-config'), 'data')"></xforms:insert>
-					
+
 					<!-- establish current dateTime according to the expiration formation of the session -->
-					<xforms:setvalue ref="instance('control-instance')/dateTime" value="format-dateTime(current-dateTime(), '[Y0001][M01][D01][H01][m01][s01][f0001]')"/>
-					
+					<xforms:setvalue ref="instance('control-instance')/dateTime" value="format-dateTime(current-dateTime(), '[Y0001][M01][D01][H01][m01][s01][f0001]')"></xforms:setvalue>
+
 					<!-- if the session XML successfully loads -->
-					<xforms:action if="number(instance('session')/expires) &gt; number(instance('control-instance')/dateTime)">						
+					<xforms:action if="number(instance('session')/expires) &gt; number(instance('control-instance')/dateTime)">
 						<!-- automatically load RDF file for non-administrative users -->
 						<xforms:action if="instance('session')/user/admin= '0'">
 							<xforms:setvalue ref="instance('control-instance')/id" value="instance('session')/user/mainagencycode"></xforms:setvalue>
 							<xforms:setvalue ref="instance('load-config')/url" value="concat('oxf:/repository_records/', instance('control-instance')/id, '.xml')"></xforms:setvalue>
 							<xforms:insert nodeset="instance('doc')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/load-id.xpl', 'file', instance('load-config'), 'data')"></xforms:insert>
 							<!-- reset @rdf:about in the event that a template is loaded -->
-							<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('aew:', instance('control-instance')/id)"/>
+							<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('aew:', instance('control-instance')/id)"></xforms:setvalue>
 							<!-- set phone, fax, and email controls -->
 							<xforms:setvalue ref="instance('control-instance')/email" value="substring-after(instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource, 'mailto:')"></xforms:setvalue>
 							<xforms:var name="phone" select="substring-after(instance('doc')/descendant::vcard:Voice/vcard:hasValue/@rdf:resource, 'tel:+')"></xforms:var>
@@ -214,27 +212,30 @@
 								<xforms:setvalue ref="instance('control-instance')/fax/line-number" value="substring($fax, 7, 4)"></xforms:setvalue>
 								<xforms:setvalue ref="instance('control-instance')/fax/@enabled">true</xforms:setvalue>
 							</xforms:action>
+							
+							<!-- revalidate 'doc' instance -->
+							<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()" if="xxforms:valid(instance('doc'), true())"></xforms:setvalue>
 						</xforms:action>
-						
+
 						<!-- if the user is an admin -->
 						<xforms:action if="instance('session')/user/admin= '1'">
-							<xforms:setvalue ref="instance('users-config')/url" value="instance('config')/users_path"/>
+							<xforms:setvalue ref="instance('users-config')/url" value="instance('config')/users_path"></xforms:setvalue>
 							<xforms:insert nodeset="instance('users')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/get-users.xpl', 'file', instance('users-config'), 'data')"></xforms:insert>
 							<xforms:setvalue ref="instance('control-instance')/admin">true</xforms:setvalue>
 						</xforms:action>
-						
-						
+
+
 						<!-- set authenticated to true to switch the xforms:case -->
 						<xforms:setvalue ref="instance('control-instance')/authenticated">true</xforms:setvalue>
 					</xforms:action>
 				</xforms:action>
 			</xforms:action>
-			
+
 			<!-- **************** XFORMS-READY ********************** -->
 			<!-- if the user authenticates successfully show the auth-true case -->
 			<xforms:action ev:event="xforms-ready">
-				<xforms:toggle case="auth-true" if="instance('control-instance')/authenticated=true()"/>	
-				<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()" if="xxforms:valid(instance('doc'))"></xforms:setvalue>
+				<xforms:toggle case="auth-true" if="instance('control-instance')/authenticated=true()"></xforms:toggle>		
+				<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()" if="xxforms:valid(instance('doc'), true())"></xforms:setvalue>				
 			</xforms:action>
 
 			<!-- **************** DYNAMIC VALIDATION CONTROLS ********************** -->
@@ -245,7 +246,7 @@
 			<xforms:action ev:event="xxforms-valid" ev:observer="doc">
 				<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()"></xforms:setvalue>
 			</xforms:action>
-			
+
 			<!-- **************** SUBMISSIONS ********************** -->
 			<!--<xforms:submission id="save-file" ref="instance('doc')" action={instance('config')/exist/url}/{instance('control-instance')/id}.xml"
 				method="put" replace="none">
@@ -276,8 +277,8 @@
 					<div class="row">
 						<div class="col-md-12">
 							<h1>Repository Registry Editor</h1>
-							<p><a href="{concat('http://', instance('request')/server-name, '/tools')}"><span class="glyphicon glyphicon-arrow-left"/>Return to <xforms:output
-								value="concat('Return to http://', instance('request')/server-name, '/tools')"></xforms:output></a></p>
+							<p><a href="{concat('http://', instance('request')/server-name, '/tools')}"><span class="glyphicon glyphicon-arrow-left"></span>Return to <xforms:output
+										value="concat('Return to http://', instance('request')/server-name, '/tools')"></xforms:output></a></p>
 						</div>
 					</div>
 					<xforms:group ref=".[instance('control-instance')/admin=true()]">
@@ -299,8 +300,9 @@
 										<xforms:setvalue ref="instance('control-instance')/id" value="$id"></xforms:setvalue>
 										<xforms:setvalue ref="instance('load-config')/url" value="concat('oxf:/repository_records/', $id, '.xml')"></xforms:setvalue>
 										<xforms:insert nodeset="instance('doc')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/load-id.xpl', 'file', instance('load-config'), 'data')"></xforms:insert>
+										
 										<!-- reset @rdf:about in the event that a template is loaded -->
-										<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('aew:', instance('control-instance')/id)"/>
+										<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('aew:', instance('control-instance')/id)"></xforms:setvalue>										
 										<!-- set phone, fax, and email controls -->
 										<xforms:setvalue ref="instance('control-instance')/email" value="substring-after(instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource, 'mailto:')"></xforms:setvalue>
 										<xforms:var name="phone" select="substring-after(instance('doc')/descendant::vcard:Voice/vcard:hasValue/@rdf:resource, 'tel:+')"></xforms:var>
@@ -314,6 +316,9 @@
 											<xforms:setvalue ref="instance('control-instance')/fax/line-number" value="substring($fax, 7, 4)"></xforms:setvalue>
 											<xforms:setvalue ref="instance('control-instance')/fax/@enabled">true</xforms:setvalue>
 										</xforms:action>
+										
+										<!-- revalidate 'doc' instance -->
+										<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()" if="xxforms:valid(instance('doc'), true())"></xforms:setvalue>
 									</xforms:action>
 								</xforms:select1>
 							</div>
@@ -459,7 +464,9 @@
 														<xforms:alert>Required</xforms:alert>
 														<xforms:action ev:event="xforms-value-changed">
 															<xforms:var name="email" select="."></xforms:var>
-															<xforms:setvalue ref="instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource" value="concat('mailto:', $email)"></xforms:setvalue>
+															<!-- blank the email in the RDF if the control email has been removed -->
+															<xforms:setvalue ref="instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource" value="concat('mailto:', $email)" if="string($email)"></xforms:setvalue>
+															<xforms:setvalue ref="instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource" if="not(string($email))"></xforms:setvalue>
 														</xforms:action>
 													</xforms:input>
 												</td>
@@ -711,7 +718,7 @@
 						<div class="col-md-12">
 							<h1>Authentication Failure</h1>
 							<p>Incorrect authentication information or session has expired.</p>
-							<p><a href="{concat('http://', instance('request')/server-name, '/tools/Login.aspx')}"><span class="glyphicon glyphicon-arrow-left"/>Return to <xforms:output
+							<p><a href="{concat('http://', instance('request')/server-name, '/tools/Login.aspx')}"><span class="glyphicon glyphicon-arrow-left"></span>Return to <xforms:output
 										value="concat('Return to http://', instance('request')/server-name, '/tools/Login.aspx')"></xforms:output></a></p>
 						</div>
 					</div>
