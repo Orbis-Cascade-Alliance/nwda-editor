@@ -201,16 +201,21 @@
 							<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('aew:', instance('control-instance')/id)"></xforms:setvalue>
 							<!-- set phone, fax, and email controls -->
 							<xforms:setvalue ref="instance('control-instance')/email" value="substring-after(instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource, 'mailto:')"></xforms:setvalue>
+							<!-- voice -->
 							<xforms:var name="phone" select="substring-after(instance('doc')/descendant::vcard:Voice/vcard:hasValue/@rdf:resource, 'tel:+')"></xforms:var>
 							<xforms:setvalue ref="instance('control-instance')/voice/area-code" value="substring($phone, 1, 3)"></xforms:setvalue>
 							<xforms:setvalue ref="instance('control-instance')/voice/prefix" value="substring($phone, 4, 3)"></xforms:setvalue>
 							<xforms:setvalue ref="instance('control-instance')/voice/line-number" value="substring($phone, 7, 4)"></xforms:setvalue>
-							<xforms:action if="instance('doc')/descendant::vcard:Fax">
-								<xforms:var name="fax" select="substring-after(instance('doc')/descendant::vcard:Fax/vcard:hasValue/@rdf:resource, 'tel:+')"></xforms:var>
-								<xforms:setvalue ref="instance('control-instance')/fax/area-code" value="substring($fax, 1, 3)"></xforms:setvalue>
-								<xforms:setvalue ref="instance('control-instance')/fax/prefix" value="substring($fax, 4, 3)"></xforms:setvalue>
-								<xforms:setvalue ref="instance('control-instance')/fax/line-number" value="substring($fax, 7, 4)"></xforms:setvalue>
+							<!-- fax -->
+							<xforms:var name="fax" select="substring-after(instance('doc')/descendant::vcard:Fax/vcard:hasValue/@rdf:resource, 'tel:+')"></xforms:var>
+							<xforms:setvalue ref="instance('control-instance')/fax/area-code" value="substring($fax, 1, 3)"></xforms:setvalue>
+							<xforms:setvalue ref="instance('control-instance')/fax/prefix" value="substring($fax, 4, 3)"></xforms:setvalue>
+							<xforms:setvalue ref="instance('control-instance')/fax/line-number" value="substring($fax, 7, 4)"></xforms:setvalue>
+							<xforms:action if="instance('doc')/descendant::vcard:Fax">											
 								<xforms:setvalue ref="instance('control-instance')/fax/@enabled">true</xforms:setvalue>
+							</xforms:action>
+							<xforms:action if="not(instance('doc')/descendant::vcard:Fax)">											
+								<xforms:setvalue ref="instance('control-instance')/fax/@enabled">false</xforms:setvalue>
 							</xforms:action>
 							
 							<!-- revalidate 'doc' instance -->
@@ -305,16 +310,21 @@
 										<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('aew:', instance('control-instance')/id)"></xforms:setvalue>										
 										<!-- set phone, fax, and email controls -->
 										<xforms:setvalue ref="instance('control-instance')/email" value="substring-after(instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource, 'mailto:')"></xforms:setvalue>
+										<!-- voice -->
 										<xforms:var name="phone" select="substring-after(instance('doc')/descendant::vcard:Voice/vcard:hasValue/@rdf:resource, 'tel:+')"></xforms:var>
 										<xforms:setvalue ref="instance('control-instance')/voice/area-code" value="substring($phone, 1, 3)"></xforms:setvalue>
 										<xforms:setvalue ref="instance('control-instance')/voice/prefix" value="substring($phone, 4, 3)"></xforms:setvalue>
 										<xforms:setvalue ref="instance('control-instance')/voice/line-number" value="substring($phone, 7, 4)"></xforms:setvalue>
-										<xforms:action if="instance('doc')/descendant::vcard:Fax">
-											<xforms:var name="fax" select="substring-after(instance('doc')/descendant::vcard:Fax/vcard:hasValue/@rdf:resource, 'tel:+')"></xforms:var>
-											<xforms:setvalue ref="instance('control-instance')/fax/area-code" value="substring($fax, 1, 3)"></xforms:setvalue>
-											<xforms:setvalue ref="instance('control-instance')/fax/prefix" value="substring($fax, 4, 3)"></xforms:setvalue>
-											<xforms:setvalue ref="instance('control-instance')/fax/line-number" value="substring($fax, 7, 4)"></xforms:setvalue>
+										<!-- fax -->
+										<xforms:var name="fax" select="substring-after(instance('doc')/descendant::vcard:Fax/vcard:hasValue/@rdf:resource, 'tel:+')"></xforms:var>
+										<xforms:setvalue ref="instance('control-instance')/fax/area-code" value="substring($fax, 1, 3)"></xforms:setvalue>
+										<xforms:setvalue ref="instance('control-instance')/fax/prefix" value="substring($fax, 4, 3)"></xforms:setvalue>
+										<xforms:setvalue ref="instance('control-instance')/fax/line-number" value="substring($fax, 7, 4)"></xforms:setvalue>
+										<xforms:action if="instance('doc')/descendant::vcard:Fax">											
 											<xforms:setvalue ref="instance('control-instance')/fax/@enabled">true</xforms:setvalue>
+										</xforms:action>
+										<xforms:action if="not(instance('doc')/descendant::vcard:Fax)">											
+											<xforms:setvalue ref="instance('control-instance')/fax/@enabled">false</xforms:setvalue>
 										</xforms:action>
 										
 										<!-- revalidate 'doc' instance -->
