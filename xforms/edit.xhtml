@@ -3,7 +3,7 @@
 	xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
 	xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:nwda="https://github.com/ewg118/nwda-editor#">
 	<head>
-		<title>AEW Admin: Edit Repository Metadata</title>
+		<title>Repository Registry Editor</title>
 		<link rel="stylesheet" href="/fr/style/bootstrap/css/bootstrap.css" type="text/css" />
 		<link rel="stylesheet" href="/fr/style/form-runner-bootstrap-override.css" type="text/css" />
 		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
@@ -231,7 +231,8 @@
 			<!-- **************** XFORMS-READY ********************** -->
 			<!-- if the user authenticates successfully show the auth-true case -->
 			<xforms:action ev:event="xforms-ready">
-				<xforms:toggle case="auth-true" if="instance('control-instance')/authenticated=true()"/>
+				<xforms:toggle case="auth-true" if="instance('control-instance')/authenticated=true()"/>	
+				<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()" if="xxforms:valid(instance('doc'))"></xforms:setvalue>
 			</xforms:action>
 
 			<!-- **************** DYNAMIC VALIDATION CONTROLS ********************** -->
@@ -272,7 +273,9 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<h1>Edit Repository Metadata</h1>
+							<h1>Repository Registry Editor</h1>
+							<p><a href="{concat('http://', instance('request')/server-name, '/tools/Login.aspx')}"><span class="glyphicon glyphicon-arrow-left"/>Return to <xforms:output
+								value="concat('Return to http://', instance('request')/server-name, '/tools/Login.aspx')"></xforms:output></a></p>
 						</div>
 					</div>
 					<xforms:group ref=".[instance('control-instance')/admin=true()]">
