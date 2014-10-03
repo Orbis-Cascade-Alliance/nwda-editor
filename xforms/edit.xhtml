@@ -141,7 +141,7 @@
 						<xforms:bind nodeset="rdf:Description">
 							<xforms:bind nodeset="vcard:street-address" required="true()"></xforms:bind>
 							<xforms:bind nodeset="vcard:locality" required="true()"></xforms:bind>
-							<xforms:bind nodeset="vcard:postal-code" required="true()" type="xs:integer" constraint="string-length(.) = 5"></xforms:bind>
+							<xforms:bind nodeset="vcard:postal-code" required="true()" type="zipcode"></xforms:bind>
 						</xforms:bind>
 					</xforms:bind>
 				</xforms:bind>
@@ -169,6 +169,11 @@
 				<xsd:simpleType name="emailAddress">
 					<xsd:restriction base="xsd:string">
 						<xsd:pattern value="[^@]+@[^\.]+\..+"></xsd:pattern>
+					</xsd:restriction>
+				</xsd:simpleType>
+				<xsd:simpleType name='zipcode'>
+					<xsd:restriction base='xsd:string'>
+						<xsd:pattern value='[0-9]{5}(-[0-9]{4})?'/>
 					</xsd:restriction>
 				</xsd:simpleType>
 			</xsd:schema>
