@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<file_path>file:///var/lib/tomcat7/webapps/orbeon/WEB-INF/resources/repository_records</file_path>
+	<users_path>oxf:/users.xml</users_path>	
+	<tmp_path>D:/www/vss_data/tmp</tmp_path>
 	<exist>
 		<url/>
 		<username/>
