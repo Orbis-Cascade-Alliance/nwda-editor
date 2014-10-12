@@ -20,6 +20,9 @@ Orbeon will run with 512MB of heap space, but ideally it requires 1 GB. Neverthe
 Go to the Orbeon [download page](http://www.orbeon.com/download) and download the current version of the free and open source Community Edition. From the zip file, extract orbeon.war and deploy the application. This can be achieved by using the Tomcat manager, if available, or by placing the WAR file into $TOMCAT_HOME/webapps.
 
 #### 3a. Enable symlinking in Tomcat ####
+
+ *Note: Skip this step for Tomcat8. Symlinking is enabled differently.*
+
 By default, Tomcat doesn't symlinking within webapps, so we need to manually allow this. In $TOMCAT_HOME/conf/Catalina/localhost, create orbeon.xml and paste the following:
 
     <Context path="/orbeon" docBase="c:/Program Files/Apache Software Foundation/Tomcat 8.0/webapps/orbeon.war" allowLinking="true"/>
@@ -41,3 +44,6 @@ Follow platform specific instructions for intalling and configuring Git. There i
   * Clone nwda-editor into $TOMCAT_HOME/webapps/orbeon/WEB-INF/resources/apps, calling it 'nwda'
   * Clone the repository\_records into $TOMCAT_HOME/webapps/orbeon/WEB-INF/resources
   * The editor is now accessible by going to http://servername:8080/orbeon/nwda/edit/, and it will be able to save and load from the repository\_records using Orbeon's internal oxf: protocol.
+  
+### 6. Edit config.xml ###
+In the nwda project folder, edit config.xml to update the &lt;tmp_path&gt;, if necessary. On a Windows system, use forward slashes instead of back slashes.
