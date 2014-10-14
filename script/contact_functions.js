@@ -1,12 +1,11 @@
 $(document).ready(function () {
-	$('.info-text').each(function(){
-		var parsed = replaceURLWithHTMLLinks((this).text());
+	$('.info-text').each(function () {
+		var parsed = replaceURLWithHTMLLinks($(this).text());		
 		$(this).html(parsed);
 	});
 	
 	$('.toggle-button').click(function () {
-		id = $(this).attr('id');
-		$('.toggle-' + id).toggle();
+		$(this).next().toggle();
 		return false;
 	});
 	
