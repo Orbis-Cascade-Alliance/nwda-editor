@@ -17,14 +17,37 @@
 					.archive-div{
 						margin-bottom:10px;
 					}
-					.toggle-button {
+					.toggle-button{
 						padding:0;
-				}</style>
+					}</style>
 			</head>
 
 			<body>
 				<xsl:comment>#include file="nav.html"</xsl:comment>
-
+				<div id="left">
+					<script type="text/javascript">
+						AC_FL_RunContent(
+						'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+						'width','335',
+						'height','575',
+						'src','slideshow_as2',
+						'quality','high',
+						'pluginspage','http://www.macromedia.com/go/getflashplayer',
+						'movie','slideshow_as2' );
+						//end AC code
+					</script>
+					<noscript>
+						<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="335"
+							height="575">
+							<param name="movie" value="slideshow_as2.swf"/>
+							<param name="quality" value="high"/>
+							<embed src="slideshow_as2.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="335" height="575"/>
+						</object>
+					</noscript>
+					<p>
+						<a href="images1.html">about these images</a>
+					</p>
+				</div>
 				<div id="wrapper">
 					<div id="content">
 						<h2>contact us</h2>
