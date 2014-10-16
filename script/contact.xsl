@@ -8,11 +8,11 @@
 		<html>
 			<head>
 				<title>Northwest Digital Archives | contact us</title>
-				<link href="nwda.css" rel="stylesheet" type="text/css"/>
-				<script src="scripts/AC_RunActiveContent.js" type="text/javascript">//</script>
-				<script src="scripts/AC_ActiveX.js" type="text/javascript">//</script>
+				<link href="/nwda.css" rel="stylesheet" type="text/css"/>
+				<script src="/scripts/AC_RunActiveContent.js" type="text/javascript">//</script>
+				<script src="/scripts/AC_ActiveX.js" type="text/javascript">//</script>
 				<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">//</script>
-				<script src="scripts/contact_functions.js" type="text/javascript">//</script>
+				<script src="/scripts/contact_functions.js" type="text/javascript">//</script>
 				<style text="text/css">
 					.archive-div{
 						padding:10px;
