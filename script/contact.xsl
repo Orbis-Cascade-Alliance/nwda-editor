@@ -15,7 +15,6 @@
 				<script src="scripts/contact_functions.js" type="text/javascript">//</script>
 				<style text="text/css">
 					.archive-div{
-						margin-bottom:10px;
 						padding:10px;
 					}
 					.toggle-button{
@@ -64,11 +63,13 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 				</script>
 
 				<xsl:comment>
+					<![CDATA[
 					<script type="text/javascript">
 					var pageTracker = _gat._getTracker("UA-3516166-1");
 					pageTracker._initData();
 					pageTracker._trackPageview();
 					</script>
+					]]>
 				</xsl:comment>
 
 				<script type="text/javascript">
