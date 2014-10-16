@@ -24,9 +24,9 @@
 			</head>
 
 			<body>
-				<xsl:comment>#include file="nav.html"</xsl:comment>
+				<!-- include nav.html -->
 				<div id="wrapper">
-					<xsl:comment>#include file="tout.html"</xsl:comment>
+					<!-- include tout.html -->
 					<!--<div id="left">
 						<script type="text/javascript">
 						AC_FL_RunContent(
