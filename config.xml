@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<users_path>oxf:/users.xml</users_path>	
+	<users_path>D:/www/nwda/users.xml</users_path>	
 	<tmp_path>D:/www/vss_data/tmp</tmp_path>
 	<exist>
 		<url/>
