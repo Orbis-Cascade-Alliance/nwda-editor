@@ -137,6 +137,7 @@
 					<xforms:bind nodeset="nwda:facsimile" constraint="if(not(string(@rdf:resource))) then string-length(.) &gt; 0 else string-length(.) = 0"></xforms:bind>
 					<xforms:bind nodeset="nwda:subRepository" required="true()"></xforms:bind>
 					<xforms:bind nodeset="//@rdf:resource" type="xs:anyURI" required="true()"></xforms:bind>
+					<xforms:bind nodeset="//vcard:hasValue/@rdf:resource" constraint="string-length(.) = 15"/>
 					<xforms:bind nodeset="vcard:hasAddress">
 						<xforms:bind nodeset="rdf:Description">
 							<xforms:bind nodeset="vcard:street-address" required="true()"></xforms:bind>
