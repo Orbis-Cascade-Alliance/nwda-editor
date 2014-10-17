@@ -46,4 +46,8 @@ Follow platform specific instructions for intalling and configuring Git. There i
   * The editor is now accessible by going to http://servername:8080/orbeon/nwda/edit/, and it will be able to save and load from the repository\_records using Orbeon's internal oxf: protocol.
   
 ### 6. Edit config.xml ###
-In the nwda project folder, edit config.xml to update the &lt;tmp_path&gt;, if necessary. On a Windows system, use forward slashes instead of back slashes.
+In the nwda project folder, edit config.xml to update the &lt;tmp\_path&gt; and &lt;users\_path&gt;, if necessary.  On a Windows system, use forward slashes instead of back slashes.
+
+The users_path is the path to the users.xml authentication file. When attempting to edit the RDF for a new user (i.e., when the RDF does not already exist on the disk), the RDF template will load, and the arch:Archive/@rdf:about will automatically be set to 'aew:{mainagencycode}'. The user must fill in the rest of the form; only a valid document will save.
+
+The tmp_path is the path to the location where temporary session XML files are placed.
