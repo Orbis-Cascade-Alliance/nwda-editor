@@ -521,7 +521,14 @@
 												<th><strong>Logo</strong></th>
 												<td><xforms:input ref="foaf:thumbnail/@rdf:resource">
 														<xforms:alert>Required</xforms:alert>
-													</xforms:input></td>
+												</xforms:input>
+													<xforms:trigger appearance="minimal">
+													<xforms:delete ev:event="DOMActivate" context="foaf:thumbnail"/>
+													<xforms:label>
+														<span class="glyphicon glyphicon-remove"/>
+													</xforms:label>
+												</xforms:trigger>
+												</td>
 												<td><p>The logo should be a publicly-accessible URL. It must start with 'http://'.</p></td>
 											</tr>
 											<xforms:group ref="instance('control-instance')/voice">
