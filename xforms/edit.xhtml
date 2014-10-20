@@ -132,11 +132,20 @@
 				<xforms:bind nodeset="arch:Archive">
 					<!--<xforms:bind nodeset="@rdf:about" required="true()" type="xs:anyURI"></xforms:bind>-->
 					<xforms:bind nodeset="foaf:name" required="true()"></xforms:bind>
-					<xforms:bind nodeset="dcterms:description" constraint="if(not(string(@rdf:resource))) then string-length(.) &gt; 0 else string-length(.) = 0"></xforms:bind>
-					<xforms:bind nodeset="nwda:visitation" constraint="if(not(string(@rdf:resource))) then string-length(.) &gt; 0 else string-length(.) = 0"></xforms:bind>
-					<xforms:bind nodeset="nwda:facsimile" constraint="if(not(string(@rdf:resource))) then string-length(.) &gt; 0 else string-length(.) = 0"></xforms:bind>
-					<xforms:bind nodeset="nwda:subRepository" required="true()"></xforms:bind>
 					<xforms:bind nodeset="//@rdf:resource" type="xs:anyURI" required="true()"></xforms:bind>
+					<xforms:bind nodeset="foaf:homepage/@rdf:resource" constraint="contains(., 'http://')"/>
+					<xforms:bind nodeset="foaf:thumbnail/@rdf:resource" constraint="contains(., 'http://')"/>
+					<xforms:bind nodeset="dcterms:description" constraint="if(not(string(@rdf:resource))) then string-length(.) &gt; 0 else string-length(.) = 0">
+						<xforms:bind nodeset="@rdf:resource" constraint="contains(., 'http://')"/>
+					</xforms:bind>
+					<xforms:bind nodeset="nwda:visitation" constraint="if(not(string(@rdf:resource))) then string-length(.) &gt; 0 else string-length(.) = 0">
+						<xforms:bind nodeset="@rdf:resource" constraint="contains(., 'http://')"/>
+					</xforms:bind>
+					<xforms:bind nodeset="nwda:facsimile" constraint="if(not(string(@rdf:resource))) then string-length(.) &gt; 0 else string-length(.) = 0">
+						<xforms:bind nodeset="@rdf:resource" constraint="contains(., 'http://')"/>
+					</xforms:bind>
+					<xforms:bind nodeset="nwda:subRepository" required="true()"></xforms:bind>
+					
 					<xforms:bind nodeset="//vcard:hasValue/@rdf:resource" constraint="string-length(.) = 15"/>
 					<xforms:bind nodeset="vcard:hasAddress">
 						<xforms:bind nodeset="rdf:Description">
@@ -497,14 +506,14 @@
 														<xforms:alert>Required</xforms:alert>
 													</xforms:input></td>
 												<td><p>Please give the URL of your repository. Ideally this is a fairly stable URL that goes to your specific department rather than your overall
-														organization. </p></td>
+														organization. It must start with 'http://'.</p></td>
 											</tr>
 											<tr>
 												<th><strong>Logo</strong></th>
 												<td><xforms:input ref="foaf:thumbnail/@rdf:resource">
 														<xforms:alert>Required</xforms:alert>
 													</xforms:input></td>
-												<td><p>The logo should be a publicly-accessible URL. </p></td>
+												<td><p>The logo should be a publicly-accessible URL. It must start with 'http://'.</p></td>
 											</tr>
 											<xforms:group ref="instance('control-instance')/voice">
 												<tr>
@@ -611,7 +620,7 @@
 													<td><xforms:group ref=".[@rdf:resource]">
 															<xforms:input ref="@rdf:resource">
 																<xforms:label>URL</xforms:label>
-																<xforms:alert>Required</xforms:alert>
+																<xforms:alert>Required. Must start with 'http://'.</xforms:alert>
 															</xforms:input>
 															<xforms:trigger appearance="minimal">
 																<xforms:delete ev:event="DOMActivate" context="."></xforms:delete>
@@ -622,7 +631,7 @@
 														</xforms:group>
 														<xforms:group ref=".[not(@rdf:resource)]">
 															<xforms:textarea ref=".">
-																<xforms:alert>Required</xforms:alert>
+																<xforms:alert>Required.</xforms:alert>
 															</xforms:textarea>
 															<xforms:trigger appearance="minimal">
 																<xforms:label>
@@ -651,7 +660,7 @@
 													<td><xforms:group ref=".[@rdf:resource]">
 															<xforms:input ref="@rdf:resource">
 																<xforms:label>URL</xforms:label>
-																<xforms:alert>Required</xforms:alert>
+																<xforms:alert>Required. Must start with 'http://'.</xforms:alert>
 															</xforms:input>
 															<xforms:trigger appearance="minimal">
 																<xforms:delete ev:event="DOMActivate" context="."></xforms:delete>
@@ -690,7 +699,7 @@
 													<td><xforms:group ref=".[@rdf:resource]">
 															<xforms:input ref="@rdf:resource">
 																<xforms:label>URL</xforms:label>
-																<xforms:alert>Required</xforms:alert>
+																<xforms:alert>Required. Must start with 'http://'.</xforms:alert>
 															</xforms:input>
 															<xforms:trigger appearance="minimal">
 																<xforms:delete ev:event="DOMActivate" context="."></xforms:delete>
