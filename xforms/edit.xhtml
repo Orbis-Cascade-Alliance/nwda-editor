@@ -259,11 +259,9 @@
 					<xforms:toggle case="auth-true"/>
 					<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()" if="xxforms:valid(instance('doc'), true())"/>
 				</xforms:action>
-				<xforms:action if="instance('control-instance')/authenticated=false()">
-					<xforms:load show="replace">
-						<xforms:resource value="http://google.com"/>
-					</xforms:load>
-				</xforms:action>
+				<!--<xforms:action if="instance('control-instance')/authenticated=false()">
+					<xforms:load show="replace" resource="concat('http://', instance('request')/server-name, '/tools/Login.aspx')"/>
+				</xforms:action>-->
 			</xforms:action>
 
 			<!-- **************** DYNAMIC VALIDATION CONTROLS ********************** -->
