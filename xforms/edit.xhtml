@@ -260,7 +260,9 @@
 					<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()" if="xxforms:valid(instance('doc'), true())"/>
 				</xforms:action>
 				<xforms:action if="instance('control-instance')/authenticated=false()">
-					<xforms:load resource="concat('http://', instance('request')/server-name, '/tools/Login.aspx')"/>
+					<xforms:load show="replace">
+						<xforms:resource value="concat('http://', instance('request')/server-name, '/tools/Login.aspx')"/>
+					</xforms:load>
 				</xforms:action>
 			</xforms:action>
 
