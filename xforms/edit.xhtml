@@ -259,9 +259,9 @@
 					<xforms:toggle case="auth-true"/>
 					<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()" if="xxforms:valid(instance('doc'), true())"/>
 				</xforms:action>
-				<xforms:action if="instance('control-instance')/authenticated=false()">
+				<!--<xforms:action if="instance('control-instance')/authenticated=false()">
 					<xforms:load resource="concat('http://', instance('request')/server-name, '/tools/Login.aspx')"/>
-				</xforms:action>
+				</xforms:action>-->
 			</xforms:action>
 
 			<!-- **************** DYNAMIC VALIDATION CONTROLS ********************** -->
@@ -286,7 +286,7 @@
 	<body>
 		<div class="container-fluid" id="form">
 			<xforms:switch>
-				<xforms:case id="auth-true" selected="false">
+				<xforms:case id="auth-true">
 					<div class="row">
 						<div class="col-md-12">
 							<xforms:group ref=".[string-length(instance('control-instance')/status) &gt; 0]">
