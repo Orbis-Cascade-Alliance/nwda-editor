@@ -255,11 +255,11 @@
 			<!-- **************** XFORMS-READY ********************** -->
 			<!-- if the user authenticates successfully show the auth-true case -->
 			<xforms:action ev:event="xforms-ready">
-				<xforms:action ev:event="instance('control-instance')/authenticated=true()">
+				<xforms:action if="instance('control-instance')/authenticated=true()">
 					<xforms:toggle case="auth-true"/>
 					<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()" if="xxforms:valid(instance('doc'), true())"/>
 				</xforms:action>
-				<xforms:action ev:event="instance('control-instance')/authenticated=false()">
+				<xforms:action if="instance('control-instance')/authenticated=false()">
 					<xforms:load resource="concat('http://', instance('request')/server-name, '/tools/Login.aspx')"/>
 				</xforms:action>
 			</xforms:action>
