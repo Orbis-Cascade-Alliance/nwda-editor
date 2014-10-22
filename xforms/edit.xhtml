@@ -405,7 +405,7 @@
 										<xforms:label><span class="glyphicon glyphicon-log-out"/>Cancel</xforms:label>
 										<xforms:action ev:event="DOMActivate">
 											<xforms:load ev:event="DOMActivate">
-												<xforms:resource value="http://', instance('request')/server-name, '/tools'"/>
+												<xforms:resource value="concat('http://', instance('request')/server-name, '/tools')"/>
 											</xforms:load>
 										</xforms:action>
 									</xforms:trigger>
