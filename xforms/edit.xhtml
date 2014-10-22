@@ -552,20 +552,22 @@
 												<td><p>Please give the URL of your repository. Ideally this is a fairly stable URL that goes to your specific department rather than
 														your overall organization. It must start with 'http'.</p></td>
 											</tr>
-											<tr>
-												<th><strong>Logo</strong></th>
-												<td><xforms:input ref="foaf:thumbnail/@rdf:resource">
+											<xforms:group ref="foaf:thumbnail">
+												<tr>
+													<th><strong>Logo</strong></th>
+													<td><xforms:input ref="@rdf:resource">
 														<xforms:alert>Required</xforms:alert>
-												</xforms:input>
-													<xforms:trigger appearance="minimal">
-													<xforms:delete ev:event="DOMActivate" context="foaf:thumbnail"/>
-													<xforms:label>
-														<span class="glyphicon glyphicon-remove"/>
-													</xforms:label>
-												</xforms:trigger>
-												</td>
-												<td><p>The logo should be a publicly-accessible URL. It must start with 'http://'.</p></td>
-											</tr>
+													</xforms:input>
+														<xforms:trigger appearance="minimal">
+															<xforms:delete ev:event="DOMActivate" context="."/>
+															<xforms:label>
+																<span class="glyphicon glyphicon-remove"/>
+															</xforms:label>
+														</xforms:trigger>
+													</td>
+													<td><p>The logo should be a publicly-accessible URL. It must start with 'http://' or 'https://'.</p></td>
+												</tr>
+											</xforms:group>											
 											<xforms:group ref="instance('control-instance')/voice">
 												<tr>
 													<th><strong>Telephone</strong></th>
@@ -673,7 +675,7 @@
 													<td><xforms:group ref=".[@rdf:resource]">
 															<xforms:input ref="@rdf:resource">
 																<xforms:label>URL</xforms:label>
-																<xforms:alert>Required. Must start with 'http://'.</xforms:alert>
+																<xforms:alert>Required. Must start with 'http://' or 'https://'</xforms:alert>
 															</xforms:input>
 															<xforms:trigger appearance="minimal">
 																<xforms:delete ev:event="DOMActivate" context="."/>
@@ -713,7 +715,7 @@
 													<td><xforms:group ref=".[@rdf:resource]">
 															<xforms:input ref="@rdf:resource">
 																<xforms:label>URL</xforms:label>
-																<xforms:alert>Required. Must start with 'http://'.</xforms:alert>
+																<xforms:alert>Required. Must start with 'http://' or 'https://'</xforms:alert>
 															</xforms:input>
 															<xforms:trigger appearance="minimal">
 																<xforms:delete ev:event="DOMActivate" context="."/>
@@ -752,7 +754,7 @@
 													<td><xforms:group ref=".[@rdf:resource]">
 															<xforms:input ref="@rdf:resource">
 																<xforms:label>URL</xforms:label>
-																<xforms:alert>Required. Must start with 'http://'.</xforms:alert>
+																<xforms:alert>Required. Must start with 'http://' or 'https://'</xforms:alert>
 															</xforms:input>
 															<xforms:trigger appearance="minimal">
 																<xforms:delete ev:event="DOMActivate" context="."/>
