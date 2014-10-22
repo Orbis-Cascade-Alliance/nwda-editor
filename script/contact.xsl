@@ -65,7 +65,7 @@ if (typeof(_gat) == "object") {
 		<div class="archive-div">
 			<xsl:choose>
 				<xsl:when test="foaf:homepage/@rdf:resource">
-					<a href="{foaf:homepage/@rdf:resource}">
+					<a href="{foaf:homepage/@rdf:resource}" target="_blank">
 						<xsl:value-of select="normalize-space(foaf:name)"/>
 					</a>
 				</xsl:when>
@@ -104,7 +104,7 @@ if (typeof(_gat) == "object") {
 			</xsl:if>
 			<xsl:choose>
 				<xsl:when test="string(@rdf:resource)">
-					<a href="{@rdf:resource}">
+					<a href="{@rdf:resource}" target="_blank">
 						<xsl:value-of select="@rdf:resource"/>
 					</a>
 				</xsl:when>

@@ -134,16 +134,16 @@
 					<!--<xforms:bind nodeset="@rdf:about" required="true()" type="xs:anyURI"></xforms:bind>-->
 					<xforms:bind nodeset="foaf:name" required="true()"/>
 					<xforms:bind nodeset="//@rdf:resource" type="xs:anyURI" required="true()"/>
-					<xforms:bind nodeset="foaf:homepage/@rdf:resource" constraint="contains(., 'http://')"/>
-					<xforms:bind nodeset="foaf:thumbnail/@rdf:resource" constraint="contains(., 'http://')"/>
+					<xforms:bind nodeset="foaf:homepage/@rdf:resource" constraint="starts-with(., 'http')"/>
+					<xforms:bind nodeset="foaf:thumbnail/@rdf:resource" constraint="starts-with(., 'http')"/>
 					<xforms:bind nodeset="dcterms:description" constraint="if(not(string(@rdf:resource))) then string-length(.) &gt; 0 else string-length(.) = 0">
-						<xforms:bind nodeset="@rdf:resource" constraint="contains(., 'http://')"/>
+						<xforms:bind nodeset="@rdf:resource" constraint="starts-with(., 'http')"/>
 					</xforms:bind>
 					<xforms:bind nodeset="nwda:visitation" constraint="if(not(string(@rdf:resource))) then string-length(.) &gt; 0 else string-length(.) = 0">
-						<xforms:bind nodeset="@rdf:resource" constraint="contains(., 'http://')"/>
+						<xforms:bind nodeset="@rdf:resource" constraint="starts-with(., 'http')"/>
 					</xforms:bind>
 					<xforms:bind nodeset="nwda:facsimile" constraint="if(not(string(@rdf:resource))) then string-length(.) &gt; 0 else string-length(.) = 0">
-						<xforms:bind nodeset="@rdf:resource" constraint="contains(., 'http://')"/>
+						<xforms:bind nodeset="@rdf:resource" constraint="starts-with(., 'http')"/>
 					</xforms:bind>
 					<xforms:bind nodeset="nwda:subRepository" required="true()"/>
 
@@ -370,6 +370,41 @@
 											<xforms:setvalue ref="instance('control-instance')/status">Repository metadata updated.</xforms:setvalue>
 										</xforms:action>
 									</xforms:trigger>
+									<xforms:trigger>
+										<xforms:label><span class="glyphicon glyphicon-refresh"/>Reload</xforms:label>
+										<xforms:action ev:event="DOMActivate">
+											<xforms:setvalue ref="instance('load-config')/url" value="concat('oxf:/repository_records/', control-instance('id'), '.xml')"/>
+											<xforms:insert nodeset="instance('doc')"
+												origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/load-id.xpl', 'file', instance('load-config'), 'data')"/>
+											<!-- reset @rdf:about in the event that a template is loaded -->
+											<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('nwda:', instance('control-instance')/id)"/>
+											<!-- set phone, fax, and email controls -->
+											<xforms:setvalue ref="instance('control-instance')/email"
+												value="substring-after(instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource, 'mailto:')"/>
+											<!-- voice -->
+											<xforms:var name="phone" select="substring-after(instance('doc')/descendant::vcard:Voice/vcard:hasValue/@rdf:resource, 'tel:+')"/>
+											<xforms:setvalue ref="instance('control-instance')/voice/area-code" value="substring($phone, 1, 3)"/>
+											<xforms:setvalue ref="instance('control-instance')/voice/prefix" value="substring($phone, 4, 3)"/>
+											<xforms:setvalue ref="instance('control-instance')/voice/line-number" value="substring($phone, 7, 4)"/>
+											<!-- fax -->
+											<xforms:var name="fax" select="substring-after(instance('doc')/descendant::vcard:Fax/vcard:hasValue/@rdf:resource, 'tel:+')"/>
+											<xforms:setvalue ref="instance('control-instance')/fax/area-code" value="substring($fax, 1, 3)"/>
+											<xforms:setvalue ref="instance('control-instance')/fax/prefix" value="substring($fax, 4, 3)"/>
+											<xforms:setvalue ref="instance('control-instance')/fax/line-number" value="substring($fax, 7, 4)"/>
+											<xforms:action if="instance('doc')/descendant::vcard:Fax">
+												<xforms:setvalue ref="instance('control-instance')/fax/@enabled">true</xforms:setvalue>
+											</xforms:action>
+											<xforms:action if="not(instance('doc')/descendant::vcard:Fax)">
+												<xforms:setvalue ref="instance('control-instance')/fax/@enabled">false</xforms:setvalue>
+											</xforms:action>
+											<!-- revalidate 'doc' instance -->
+											<xforms:setvalue ref="instance('control-instance')/save-trigger" value="true()" if="xxforms:valid(instance('doc'), true())"/>
+										</xforms:action>
+									</xforms:trigger>
+									<xforms:trigger>
+										<xforms:label><span class="glyphicon glyphicon-log-out"/>Cancel</xforms:label>
+										<xforms:load resource="concat('Return to http://', instance('request')/server-name, '/tools')" ev:event="DOMActivate"/>
+									</xforms:trigger>
 								</div>
 							</div>
 						</div>
@@ -464,12 +499,12 @@
 											<tr>
 												<th><strong>Repository Name</strong></th>
 												<td>
-													<xforms:input ref="foaf:name">
+													<xforms:input ref="foaf:name" style="width:40em">
 														<xforms:alert>Required</xforms:alert>
 													</xforms:input>
 												</td>
 												<td><p>What is the name of your repository as you would like it to appear in all menus of the public user interface? NB: This should
-														include the name of your parent institution in most cases, e.g. Heritage Resources, Western Washington University.</p>
+													include the name of your parent institution in most cases, e.g. Western Washington University, Heritage Resources.</p>
 												</td>
 											</tr>
 											<xforms:group ref="nwda:subRepository">
@@ -515,7 +550,7 @@
 														<xforms:alert>Required</xforms:alert>
 													</xforms:input></td>
 												<td><p>Please give the URL of your repository. Ideally this is a fairly stable URL that goes to your specific department rather than
-														your overall organization. It must start with 'http://'.</p></td>
+														your overall organization. It must start with 'http'.</p></td>
 											</tr>
 											<tr>
 												<th><strong>Logo</strong></th>
