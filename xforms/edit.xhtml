@@ -49,7 +49,7 @@
 			</xforms:instance>
 
 			<xforms:instance id="session" xxforms:exclude-result-prefixes="#all">
-				<session></session>
+				<session xmlns=""></session>
 			</xforms:instance>
 
 			<xforms:instance id="users" xxforms:exclude-result-prefixes="#all">
@@ -224,7 +224,7 @@
 							<!-- fax -->
 							<xforms:var name="fax" select="substring-after(instance('doc')/descendant::vcard:Fax/vcard:hasValue/@rdf:resource, 'tel:+')"></xforms:var>
 							<xforms:setvalue ref="instance('control-instance')/fax/area-code" value="substring($fax, 1, 3)"></xforms:setvalue>
-							<xforms:setvalue ref="instanc Your search term: Utah State University, Special Collections and Archives e('control-instance')/fax/prefix" value="substring($fax, 4, 3)"></xforms:setvalue>
+							<xforms:setvalue ref="instance('control-instance')/fax/prefix" value="substring($fax, 4, 3)"></xforms:setvalue>
 							<xforms:setvalue ref="instance('control-instance')/fax/line-number" value="substring($fax, 7, 4)"></xforms:setvalue>
 							<xforms:action if="instance('doc')/descendant::vcard:Fax">
 								<xforms:setvalue ref="instance('control-instance')/fax/@enabled">true</xforms:setvalue>
