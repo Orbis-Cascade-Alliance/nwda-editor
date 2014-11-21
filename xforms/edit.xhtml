@@ -213,7 +213,7 @@
 							<xforms:setvalue ref="instance('load-config')/url" value="concat('oxf:/repository_records/', instance('control-instance')/id, '.xml')"></xforms:setvalue>
 							<xforms:insert nodeset="instance('doc')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/load-id.xpl', 'file', instance('load-config'), 'data')"></xforms:insert>
 							<!-- reset @rdf:about in the event that a template is loaded -->
-							<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('nwda:', instance('control-instance')/id)"></xforms:setvalue>
+							<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('http://nwda.orbiscascade.org/contact#', instance('control-instance')/id)"></xforms:setvalue>
 							<!-- set phone, fax, and email controls -->
 							<xforms:setvalue ref="instance('control-instance')/email" value="substring-after(instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource, 'mailto:')"></xforms:setvalue>
 							<!-- voice -->
@@ -326,7 +326,7 @@
 										<xforms:setvalue ref="instance('load-config')/url" value="concat('oxf:/repository_records/', $id, '.xml')"></xforms:setvalue>
 										<xforms:insert nodeset="instance('doc')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/load-id.xpl', 'file', instance('load-config'), 'data')"></xforms:insert>
 										<!-- reset @rdf:about in the event that a template is loaded -->
-										<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('nwda:', instance('control-instance')/id)"></xforms:setvalue>
+										<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('http://nwda.orbiscascade.org/contact#', instance('control-instance')/id)"></xforms:setvalue>
 										<!-- set phone, fax, and email controls -->
 										<xforms:setvalue ref="instance('control-instance')/email" value="substring-after(instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource, 'mailto:')"></xforms:setvalue>
 										<!-- voice -->
@@ -360,7 +360,7 @@
 										<xforms:label><span class="glyphicon glyphicon-floppy-disk"></span>Save</xforms:label>
 										<xforms:action ev:event="DOMActivate">
 											<!-- save file back to disk -->
-											<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('nwda:', instance('control-instance')/id)"></xforms:setvalue>
+											<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('http://nwda.orbiscascade.org/contact#', instance('control-instance')/id)"></xforms:setvalue>
 											<xforms:setvalue ref="instance('save-config')/url" value="concat('oxf:/repository_records/',  instance('control-instance')/id, '.xml')"></xforms:setvalue>
 											<xforms:insert nodeset="instance('dump')"
 												origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/save-id.xpl', ('doc', 'configuration'), (instance('doc'), instance('save-config')), 'data')"></xforms:insert>
@@ -373,7 +373,7 @@
 											<xforms:setvalue ref="instance('load-config')/url" value="concat('oxf:/repository_records/', instance('control-instance')/id, '.xml')"></xforms:setvalue>
 											<xforms:insert nodeset="instance('doc')" origin="xxforms:call-xpl('oxf:/apps/nwda/xpl/load-id.xpl', 'file', instance('load-config'), 'data')"></xforms:insert>
 											<!-- reset @rdf:about in the event that a template is loaded -->
-											<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('nwda:', instance('control-instance')/id)"></xforms:setvalue>
+											<xforms:setvalue ref="instance('doc')/arch:Archive/@rdf:about" value="concat('http://nwda.orbiscascade.org/contact#', instance('control-instance')/id)"></xforms:setvalue>
 											<!-- set phone, fax, and email controls -->
 											<xforms:setvalue ref="instance('control-instance')/email" value="substring-after(instance('doc')/arch:Archive/vcard:hasEmail/@rdf:resource, 'mailto:')"></xforms:setvalue>
 											<!-- voice -->

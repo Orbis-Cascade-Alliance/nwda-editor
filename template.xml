@@ -3,6 +3,7 @@
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
 	xmlns:nwda="https://github.com/ewg118/nwda-editor#">
 	<arch:Archive rdf:about="">
+		<rdf:type rdf:resource="http://purl.org/dc/dcmitype/Collection"/>
 		<foaf:name/>
 		<foaf:homepage rdf:resource=""/>
 		<vcard:hasEmail rdf:resource=""/>
