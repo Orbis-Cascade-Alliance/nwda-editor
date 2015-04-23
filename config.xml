@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<users_path>D:/nwda/users.xml</users_path>	
-	<tmp_path>D:/www/vss_data/tmp</tmp_path>
+	<users_path>c:/nwda/users.xml</users_path>	
+	<tmp_path>c:/www/vss_data/tmp</tmp_path>
 	<exist>
 		<url/>
 		<username/>
