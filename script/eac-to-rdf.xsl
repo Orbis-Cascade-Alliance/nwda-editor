@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:eac="urn:isbn:1-931666-33-4" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/"
 	xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xlink="http://www.w3.org/1999/xlink"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:nwda="https://github.com/ewg118/nwda-editor#" exclude-result-prefixes="eac xsl xlink" version="2.0">
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#" exclude-result-prefixes="eac xsl xlink" version="2.0">
 	<xsl:output method="xml" encoding="UTF-8" indent="yes"/>
 	<xsl:template match="/">
 		<rdf:RDF xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
 			xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-			xmlns:nwda="https://github.com/ewg118/nwda-editor#">
+			xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#">
 			<arch:Archive rdf:about="aew:{descendant::eac:entityId[@localType='OCLCRepositoryCode']}">
 				<xsl:choose>
 					<xsl:when test="descendant::eac:nameEntry[@localType='fullName']">

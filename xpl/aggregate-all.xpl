@@ -22,7 +22,7 @@
 				<xsl:template match="/">					
 				<rdf:RDF xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
 					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-					xmlns:nwda="https://github.com/ewg118/nwda-editor#">
+					xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#">
 					<xsl:for-each select="//file">
 						<xsl:copy-of select="document(concat('oxf:/repository_records/', @name))/rdf:RDF/*"/>
 					</xsl:for-each>
