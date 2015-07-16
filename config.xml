@@ -7,4 +7,6 @@
 		<username/>
 		<password/>
 	</exist>
+	<production_server>http://archiveswest.orbiscascade.org/</production_server>
+	<!-- note: be sure to include the trailing slash in the production server url -->
 </config>
